@@ -3,24 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
     <title>ALL IN Trips by Mad Monkey — Get the Free Trip Guide</title>
-    <meta name="description" content="Group backpacker trips through Indonesia, Cambodia and Vietnam. Drop your details and we'll send you the full ALL IN trip guide — routes, dates and what's included." />
+    <meta
+      name="description"
+      content="Group backpacker trips through Indonesia, Cambodia and Vietnam. Get the free ALL IN trip guide — every route, every date, what's included."
+    />
     <meta name="author" content="Mad Monkey Hostels" />
+    <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0a0a0a" />
+    <link rel="canonical" href="%SITE_URL%/" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Bungee&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
 
+    <!-- Open Graph. Absolute URLs are required: Meta's scraper does not resolve
+         relative paths, and it cannot read WebP — og-image.jpg is a real JPEG.
+         The site-URL token below is substituted at build time from
+         VITE_SITE_URL (see vite.config.ts). -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mad Monkey Hostels" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content="%SITE_URL%/" />
     <meta property="og:title" content="ALL IN Trips by Mad Monkey — Get the Free Trip Guide" />
-    <meta property="og:description" content="Group backpacker trips through Indonesia, Cambodia and Vietnam. Drop your details and we'll send you the full ALL IN trip guide." />
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/tzR2PpIkesUVrzz7XGJoD3wIFsL2/social-images/social-1779854602939-mmsquad.webp" />
+    <meta
+      property="og:description"
+      content="Group backpacker trips through Indonesia, Cambodia and Vietnam. Get the free ALL IN trip guide — every route, every date, what's included."
+    />
+    <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
+    <meta property="og:image:secure_url" content="%SITE_URL%/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="ALL IN by Mad Monkey — trips that actually make it out of the group chat."
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ALL IN Trips by Mad Monkey — Get the Free Trip Guide" />
-    <meta name="twitter:description" content="Group backpacker trips through Indonesia, Cambodia and Vietnam. Drop your details and we'll send you the full ALL IN trip guide." />
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/tzR2PpIkesUVrzz7XGJoD3wIFsL2/social-images/social-1779854602939-mmsquad.webp" />
+    <meta
+      name="twitter:description"
+      content="Group backpacker trips through Indonesia, Cambodia and Vietnam. Get the free ALL IN trip guide — every route, every date, what's included."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="ALL IN by Mad Monkey — trips that actually make it out of the group chat."
+    />
   </head>
 
   <body>

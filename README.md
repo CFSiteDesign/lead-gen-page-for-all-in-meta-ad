@@ -53,6 +53,19 @@ Lovable Cloud injects the Supabase credentials in the editor and in deployed
 builds. To point a local dev server at the real database, copy `.env.example`
 to `.env` and fill it from the Lovable editor (Cloud → Settings).
 
+### `VITE_SITE_URL` — set this before the ad goes live
+
+Social scrapers can't resolve relative URLs and don't run JS, so `og:url`,
+`og:image` and `<link rel="canonical">` must be absolute and baked in at build
+time. `vite.config.ts` substitutes `VITE_SITE_URL` into `index.html`.
+
+It falls back to the Lovable preview URL, which keeps builds valid but means a
+shared link would show the preview domain. **Set `VITE_SITE_URL` to the real
+origin (no trailing slash) once the domain is decided.**
+
+The share card is `public/og-image.jpg` — 1200×630 JPEG. Deliberately *not*
+WebP: Meta's link scraper can't read WebP and renders no image at all.
+
 Without credentials the form still runs end to end, but logs the lead to the
 console instead of saving it, and says so.
 
