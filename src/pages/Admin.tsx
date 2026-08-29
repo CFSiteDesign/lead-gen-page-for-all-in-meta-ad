@@ -19,8 +19,9 @@ type Lead = {
   referrer: string | null;
 };
 
+const ADMIN_EMAIL = "leads-admin@madmonkeyhostels.com";
+
 function LoginForm({ onError }: { onError: (m: string) => void }) {
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -28,28 +29,17 @@ function LoginForm({ onError }: { onError: (m: string) => void }) {
     e.preventDefault();
     setBusy(true);
     onError("");
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) onError(error.message);
+    const { error } = await supabase.auth.signInWithPassword({ email: ADMIN_EMAIL, password });
+    if (error) onError("Incorrect password.");
     setBusy(false);
   };
 
   return (
     <form onSubmit={submit} className="w-full max-w-sm border-[3px] border-mm-bone bg-mm-black p-6">
       <h1 className="font-display text-3xl leading-none text-mm-bone">ALL IN — LEADS</h1>
-      <p className="mt-2 text-sm font-semibold text-mm-bone/60">Sign in to view submissions.</p>
+      <p className="mt-2 text-sm font-semibold text-mm-bone/60">Enter the admin password to view submissions.</p>
 
       <label className="mt-6 block font-sticker text-[10px] tracking-[0.18em] text-mm-bone/70">
-        EMAIL
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 w-full border-[3px] border-mm-bone bg-mm-paper px-3 py-2 font-sans text-sm font-semibold tracking-normal text-mm-black"
-        />
-      </label>
-
-      <label className="mt-4 block font-sticker text-[10px] tracking-[0.18em] text-mm-bone/70">
         PASSWORD
         <input
           type="password"
