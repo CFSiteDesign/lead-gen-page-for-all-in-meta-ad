@@ -1,0 +1,61 @@
+import { cn } from "@/lib/utils";
+
+type StickerColor = "lime" | "yellow" | "pink" | "cyan" | "orange" | "blue" | "purple" | "green";
+
+const COLOR_BG: Record<StickerColor, string> = {
+  lime: "bg-mm-lime",
+  yellow: "bg-mm-yellow",
+  pink: "bg-mm-pink",
+  cyan: "bg-mm-cyan",
+  orange: "bg-mm-orange",
+  blue: "bg-mm-blue text-mm-bone",
+  purple: "bg-mm-purple text-mm-bone",
+  green: "bg-mm-green",
+};
+
+interface StickerProps {
+  children: React.ReactNode;
+  color?: StickerColor;
+  rotate?: number;
+  className?: string;
+}
+
+export function Sticker({ children, color = "lime", rotate = -4, className }: StickerProps) {
+  return (
+    <span
+      style={{ transform: `rotate(${rotate}deg)` }}
+      className={cn(
+        "inline-flex items-center gap-1.5 border-[3px] border-mm-black px-3 py-1.5 font-sticker text-xs text-mm-black shadow-mm-sm",
+        COLOR_BG[color],
+        className,
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+export function Starburst({
+  children,
+  size = 144,
+  color = "yellow",
+  rotate = -8,
+  className,
+  textClassName,
+}: {
+  children: React.ReactNode;
+  size?: number;
+  color?: StickerColor;
+  rotate?: number;
+  className?: string;
+  textClassName?: string;
+}) {
+  return (
+    <div
+      className={cn("starburst", COLOR_BG[color], className)}
+      style={{ width: size, height: size, transform: `rotate(${rotate}deg)` }}
+    >
+      <span className={cn("px-2 text-center font-display text-sm leading-[0.9]", textClassName)}>{children}</span>
+    </div>
+  );
+}
