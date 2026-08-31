@@ -16,8 +16,9 @@ const schema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, "We need an email to send the guide")
+    .min(1, "We need an email so the team can reply")
     .email("That email doesn't look right"),
+
   phone: z
     .string()
     .trim()
