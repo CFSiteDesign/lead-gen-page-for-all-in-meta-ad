@@ -1,4 +1,4 @@
-import { Map, CalendarDays, Wallet, Users, ArrowRight } from "lucide-react";
+import { Users, ArrowRight } from "lucide-react";
 import { LeadForm } from "@/components/LeadForm";
 import { Ticker } from "@/components/Ticker";
 import { Footer } from "@/components/Footer";
@@ -6,23 +6,6 @@ import { Sticker } from "@/components/Sticker";
 import heroImg from "@/assets/home-hero.png";
 import allInLogo from "@/assets/all-in-logo.png";
 
-const GUIDE_CONTENTS = [
-  {
-    icon: Map,
-    title: "EVERY ROUTE",
-    desc: "Indonesia, Cambodia and Vietnam — mapped stop by stop, so you know exactly where you're waking up.",
-  },
-  {
-    icon: CalendarDays,
-    title: "EVERY DATE",
-    desc: "The full departure calendar, plus which trips are filling up fastest.",
-  },
-  {
-    icon: Wallet,
-    title: "THE REAL PRICE",
-    desc: "What's in, what's not, and what you'll actually spend. No mystery add-ons.",
-  },
-];
 
 const PROOF = [
   { stat: "53,000+", label: "IN THE CREW" },
