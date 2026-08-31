@@ -238,7 +238,7 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
             </>
           ) : (
             <>
-              SEND ME THE GUIDE
+              CHAT TO THE TEAM
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </>
           )}
@@ -246,8 +246,9 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
 
         <p className="flex items-start gap-1.5 text-[11px] font-semibold leading-snug text-mm-black/55">
           <Check className="mt-[1px] h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          No spam. Just trip info and the odd deal. Unsubscribe whenever.
+          No spam. Just trip info and a real reply from the crew.
         </p>
+
       </form>
     </div>
   );
