@@ -61,11 +61,12 @@ export default function Index() {
 
             {/* Mobile-only nudge down to the form */}
             <a
-              href="#get-the-guide"
+              href="#chat-to-team"
               className="mt-7 inline-flex items-center gap-2 border-[3px] border-mm-bone bg-mm-pink px-5 py-3 font-sticker text-xs tracking-[0.14em] text-mm-black shadow-mm-bone-sm md:hidden"
             >
               CHAT TO THE TEAM <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
+
 
           </div>
 

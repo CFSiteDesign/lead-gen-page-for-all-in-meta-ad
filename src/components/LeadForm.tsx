@@ -65,7 +65,7 @@ function FieldError({ message }: { message?: string }) {
 
 const LABEL = "mb-1.5 block font-sticker text-[10px] tracking-[0.16em] text-mm-black/70";
 
-export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
+export function LeadForm({ id = "chat-to-team" }: { id?: string }) {
   const [done, setDone] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
