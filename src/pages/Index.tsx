@@ -69,7 +69,7 @@ export default function Index() {
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Sticker color="lime" rotate={-3}>
-                FREE TRIP GUIDE
+                CHAT TO OUR TEAM
               </Sticker>
               <Sticker color="cyan" rotate={2}>
                 NO PLANNING NEEDED
@@ -81,8 +81,9 @@ export default function Index() {
               href="#get-the-guide"
               className="mt-7 inline-flex items-center gap-2 border-[3px] border-mm-bone bg-mm-pink px-5 py-3 font-sticker text-xs tracking-[0.14em] text-mm-black shadow-mm-bone-sm md:hidden"
             >
-              GET THE GUIDE <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              CHAT TO THE TEAM <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
+
           </div>
 
           {/* ---- Right: the form ---- */}
