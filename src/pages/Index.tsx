@@ -1,4 +1,4 @@
-import { Map, CalendarDays, Wallet, Users, ArrowRight } from "lucide-react";
+import { Users, ArrowRight } from "lucide-react";
 import { LeadForm } from "@/components/LeadForm";
 import { Ticker } from "@/components/Ticker";
 import { Footer } from "@/components/Footer";
@@ -6,23 +6,6 @@ import { Sticker } from "@/components/Sticker";
 import heroImg from "@/assets/home-hero.png";
 import allInLogo from "@/assets/all-in-logo.png";
 
-const GUIDE_CONTENTS = [
-  {
-    icon: Map,
-    title: "EVERY ROUTE",
-    desc: "Indonesia, Cambodia and Vietnam — mapped stop by stop, so you know exactly where you're waking up.",
-  },
-  {
-    icon: CalendarDays,
-    title: "EVERY DATE",
-    desc: "The full departure calendar, plus which trips are filling up fastest.",
-  },
-  {
-    icon: Wallet,
-    title: "THE REAL PRICE",
-    desc: "What's in, what's not, and what you'll actually spend. No mystery add-ons.",
-  },
-];
 
 const PROOF = [
   { stat: "53,000+", label: "IN THE CREW" },
@@ -69,7 +52,7 @@ export default function Index() {
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Sticker color="lime" rotate={-3}>
-                FREE TRIP GUIDE
+                CHAT TO OUR TEAM
               </Sticker>
               <Sticker color="cyan" rotate={2}>
                 NO PLANNING NEEDED
@@ -78,11 +61,13 @@ export default function Index() {
 
             {/* Mobile-only nudge down to the form */}
             <a
-              href="#get-the-guide"
+              href="#chat-to-team"
               className="mt-7 inline-flex items-center gap-2 border-[3px] border-mm-bone bg-mm-pink px-5 py-3 font-sticker text-xs tracking-[0.14em] text-mm-black shadow-mm-bone-sm md:hidden"
             >
-              GET THE GUIDE <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              CHAT TO THE TEAM <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
+
+
           </div>
 
           {/* ---- Right: the form ---- */}
@@ -94,28 +79,8 @@ export default function Index() {
 
       <Ticker />
 
-      {/* ============ WHAT'S IN THE GUIDE ============ */}
-      <section className="bg-mm-bone px-5 py-14 text-mm-black md:px-8 md:py-20">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="font-display text-[2rem] leading-[0.95] md:text-[2.75rem]">
-            WHAT'S IN
-            <br className="md:hidden" />{" "}
-            <span className="bg-mm-lime px-1.5">THE GUIDE.</span>
-          </h2>
-
-          <div className="mt-8 grid gap-5 md:mt-12 md:grid-cols-3 md:gap-6">
-            {GUIDE_CONTENTS.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="border-[3px] border-mm-black bg-mm-paper p-6 shadow-mm-sm">
-                <Icon className="h-7 w-7" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-xl leading-none">{title}</h3>
-                <p className="mt-3 text-sm font-semibold leading-snug text-mm-black/70">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ============ PROOF ============ */}
+
       <section className="border-y-[4px] border-mm-bone bg-mm-black px-5 py-12 md:px-8 md:py-14">
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 text-center md:grid-cols-4">
           {PROOF.map(({ stat, label }) => (
@@ -135,16 +100,18 @@ export default function Index() {
             SOLO? NOT FOR LONG.
           </h2>
           <p className="mt-4 max-w-lg text-sm font-semibold leading-snug text-mm-black/75 md:text-base">
-            Send me the guide and see where the crew is heading next. It's free, and it takes 20 seconds.
+            Chat to our team and see where the crew is heading next. A real human will reply with routes, dates and prices.
           </p>
           <a
-            href="#get-the-guide"
+            href="#chat-to-team"
             className="mt-7 inline-flex items-center gap-2 border-[3px] border-mm-black bg-mm-black px-7 py-4 font-display text-base text-mm-bone shadow-mm-paper transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px]"
           >
-            GET THE FREE GUIDE <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            CHAT TO THE TEAM <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
+
         </div>
       </section>
+
 
       <Footer />
     </main>

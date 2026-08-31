@@ -16,8 +16,9 @@ const schema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, "We need an email to send the guide")
+    .min(1, "We need an email so the team can reply")
     .email("That email doesn't look right"),
+
   phone: z
     .string()
     .trim()
@@ -64,7 +65,7 @@ function FieldError({ message }: { message?: string }) {
 
 const LABEL = "mb-1.5 block font-sticker text-[10px] tracking-[0.16em] text-mm-black/70";
 
-export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
+export function LeadForm({ id = "chat-to-team" }: { id?: string }) {
   const [done, setDone] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -104,12 +105,12 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
             IN
           </Starburst>
           <h3 className="mt-6 font-display text-[2rem] leading-[0.95] md:text-[2.5rem]">
-            CHECK YOUR
+            WE'LL BE IN
             <br />
-            INBOX.
+            TOUCH.
           </h3>
           <p className="mt-4 max-w-sm text-sm font-semibold leading-snug text-mm-black/80">
-            The ALL IN trip guide is on its way — routes, dates, what's included and what it costs.
+            A real human from the ALL IN crew will reply with routes, dates and prices.
             If it's not there in a few minutes, check your spam folder.
           </p>
           <p className="mt-6 font-sticker text-[10px] tracking-[0.18em] text-mm-black/60">
@@ -120,19 +121,21 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
     );
   }
 
+
   return (
     <div
       id={id}
       className="border-[4px] border-mm-black bg-mm-bone p-6 text-mm-black shadow-mm-lg md:p-8"
     >
       <h2 className="font-display text-[1.75rem] leading-[0.95] md:text-[2.15rem]">
-        GET THE FREE
+        CHAT TO OUR
         <br />
-        <span className="bg-mm-orange px-1.5">TRIP GUIDE.</span>
+        <span className="bg-mm-orange px-1.5">ALL IN TEAM.</span>
       </h2>
       <p className="mt-3 text-sm font-semibold leading-snug text-mm-black/70">
-        Every route, every date, everything that's included — straight to your inbox. Takes 20 seconds.
+        Tell us where you want to go and when. A real human will reply with routes, dates and prices. Takes 20 seconds.
       </p>
+
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-4">
         <div>
@@ -236,7 +239,7 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
             </>
           ) : (
             <>
-              SEND ME THE GUIDE
+              CHAT TO THE TEAM
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </>
           )}
@@ -244,8 +247,9 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
 
         <p className="flex items-start gap-1.5 text-[11px] font-semibold leading-snug text-mm-black/55">
           <Check className="mt-[1px] h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          No spam. Just trip info and the odd deal. Unsubscribe whenever.
+          No spam. Just trip info and a real reply from the crew.
         </p>
+
       </form>
     </div>
   );
