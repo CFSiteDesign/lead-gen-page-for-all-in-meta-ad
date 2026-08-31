@@ -104,12 +104,12 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
             IN
           </Starburst>
           <h3 className="mt-6 font-display text-[2rem] leading-[0.95] md:text-[2.5rem]">
-            CHECK YOUR
+            WE'LL BE IN
             <br />
-            INBOX.
+            TOUCH.
           </h3>
           <p className="mt-4 max-w-sm text-sm font-semibold leading-snug text-mm-black/80">
-            The ALL IN trip guide is on its way — routes, dates, what's included and what it costs.
+            A real human from the ALL IN crew will reply with routes, dates and prices.
             If it's not there in a few minutes, check your spam folder.
           </p>
           <p className="mt-6 font-sticker text-[10px] tracking-[0.18em] text-mm-black/60">
@@ -119,6 +119,7 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
       </div>
     );
   }
+
 
   return (
     <div
