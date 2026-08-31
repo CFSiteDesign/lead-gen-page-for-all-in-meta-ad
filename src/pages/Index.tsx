@@ -116,16 +116,17 @@ export default function Index() {
             SOLO? NOT FOR LONG.
           </h2>
           <p className="mt-4 max-w-lg text-sm font-semibold leading-snug text-mm-black/75 md:text-base">
-            Send me the guide and see where the crew is heading next. It's free, and it takes 20 seconds.
+            Chat to our team and see where the crew is heading next. A real human will reply with routes, dates and prices.
           </p>
           <a
             href="#get-the-guide"
             className="mt-7 inline-flex items-center gap-2 border-[3px] border-mm-black bg-mm-black px-7 py-4 font-display text-base text-mm-bone shadow-mm-paper transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px]"
           >
-            GET THE FREE GUIDE <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            CHAT TO THE TEAM <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
         </div>
       </section>
+
 
       <Footer />
     </main>
