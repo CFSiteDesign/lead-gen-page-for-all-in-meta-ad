@@ -95,28 +95,8 @@ export default function Index() {
 
       <Ticker />
 
-      {/* ============ WHAT'S IN THE GUIDE ============ */}
-      <section className="bg-mm-bone px-5 py-14 text-mm-black md:px-8 md:py-20">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="font-display text-[2rem] leading-[0.95] md:text-[2.75rem]">
-            WHAT'S IN
-            <br className="md:hidden" />{" "}
-            <span className="bg-mm-lime px-1.5">THE GUIDE.</span>
-          </h2>
-
-          <div className="mt-8 grid gap-5 md:mt-12 md:grid-cols-3 md:gap-6">
-            {GUIDE_CONTENTS.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="border-[3px] border-mm-black bg-mm-paper p-6 shadow-mm-sm">
-                <Icon className="h-7 w-7" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-xl leading-none">{title}</h3>
-                <p className="mt-3 text-sm font-semibold leading-snug text-mm-black/70">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ============ PROOF ============ */}
+
       <section className="border-y-[4px] border-mm-bone bg-mm-black px-5 py-12 md:px-8 md:py-14">
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 text-center md:grid-cols-4">
           {PROOF.map(({ stat, label }) => (
