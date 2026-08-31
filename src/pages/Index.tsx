@@ -103,11 +103,12 @@ export default function Index() {
             Chat to our team and see where the crew is heading next. A real human will reply with routes, dates and prices.
           </p>
           <a
-            href="#get-the-guide"
+            href="#chat-to-team"
             className="mt-7 inline-flex items-center gap-2 border-[3px] border-mm-black bg-mm-black px-7 py-4 font-display text-base text-mm-bone shadow-mm-paper transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px]"
           >
             CHAT TO THE TEAM <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
+
         </div>
       </section>
 
