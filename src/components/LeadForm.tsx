@@ -127,13 +127,14 @@ export function LeadForm({ id = "get-the-guide" }: { id?: string }) {
       className="border-[4px] border-mm-black bg-mm-bone p-6 text-mm-black shadow-mm-lg md:p-8"
     >
       <h2 className="font-display text-[1.75rem] leading-[0.95] md:text-[2.15rem]">
-        GET THE FREE
+        CHAT TO OUR
         <br />
-        <span className="bg-mm-orange px-1.5">TRIP GUIDE.</span>
+        <span className="bg-mm-orange px-1.5">ALL IN TEAM.</span>
       </h2>
       <p className="mt-3 text-sm font-semibold leading-snug text-mm-black/70">
-        Every route, every date, everything that's included — straight to your inbox. Takes 20 seconds.
+        Tell us where you want to go and when. A real human will reply with routes, dates and prices. Takes 20 seconds.
       </p>
+
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-4">
         <div>
