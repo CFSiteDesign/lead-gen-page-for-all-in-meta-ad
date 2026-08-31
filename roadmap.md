@@ -3,4 +3,4 @@
 - [x] Remove all "guide" references from the landing page
 - [x] Delete the middle "What's in the guide" section
 - [x] Reframe CTA to "CHAT TO OUR TEAM"
-- [ ] Confirm /admin password requirement (already password-only; clarify if password value needs updating)
+- [x] Verify /admin is password-only (already implemented; email is handled behind the scenes)
