@@ -1,5 +1,6 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 import { createClient } from 'npm:@supabase/supabase-js@2'
+import postgres from 'npm:postgres@3'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
@@ -8,23 +9,30 @@ Deno.serve(async (req) => {
     if (!password) throw new Error('ADMIN_LEADS_PASSWORD secret not set')
     if (password.length < 6) throw new Error('Password must be at least 6 characters')
 
-    const url = Deno.env.get('SUPABASE_URL')!
-    const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    const admin = createClient(url, serviceKey, { auth: { persistSession: false } })
-
     const email = 'leads-admin@madmonkeyhostels.com'
-    const userId = '6ed7680f-1a59-4ca1-85c1-347f866c7ffb'
+    const sql = postgres(Deno.env.get('SUPABASE_DB_URL')!, { max: 1 })
 
-    const { error: updErr } = await admin.auth.admin.updateUserById(userId, { password })
-    if (updErr) throw updErr
+    const updated = await sql`
+      update auth.users
+      set encrypted_password = crypt(${password}, gen_salt('bf')),
+          email_confirmed_at = coalesce(email_confirmed_at, now()),
+          updated_at = now()
+      where email = ${email}
+      returning id
+    `
+    await sql.end()
+    if (updated.length === 0) throw new Error('Admin user not found')
 
     // Verify sign-in works with the new password
-    const anon = createClient(url, Deno.env.get('SUPABASE_ANON_KEY')!, { auth: { persistSession: false } })
+    const anon = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_ANON_KEY')!, {
+      auth: { persistSession: false },
+    })
     const { error: signInErr } = await anon.auth.signInWithPassword({ email, password })
 
-    return new Response(JSON.stringify({ updated: true, signInWorks: !signInErr, signInError: signInErr?.message ?? null }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    })
+    return new Response(
+      JSON.stringify({ updated: true, signInWorks: !signInErr, signInError: signInErr?.message ?? null }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+    )
   } catch (e) {
     return new Response(JSON.stringify({ error: String(e?.message ?? e) }), {
       status: 500,
