@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import type { Session } from "@supabase/supabase-js";
+import { Button } from "@/components/ui/button";
 
 type Lead = {
   id: string;
@@ -19,9 +19,22 @@ type Lead = {
   referrer: string | null;
 };
 
-const ADMIN_EMAIL = "leads-admin@madmonkeyhostels.com";
+const SESSION_KEY = "all-in-admin-session";
 
-function LoginForm({ onError }: { onError: (m: string) => void }) {
+async function adminRequest(body: Record<string, string>) {
+  const { data, error } = await supabase.functions.invoke("admin-leads", { body });
+  if (error) {
+    let message = "Something went wrong. Please try again.";
+    if (error.context instanceof Response) {
+      const payload = await error.context.json().catch(() => null) as { error?: string } | null;
+      if (payload?.error) message = payload.error;
+    }
+    throw new Error(message);
+  }
+  return data as { token?: string; leads?: Lead[]; changed?: boolean };
+}
+
+function LoginForm({ onSignedIn, onError }: { onSignedIn: (token: string) => void; onError: (m: string) => void }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -29,8 +42,13 @@ function LoginForm({ onError }: { onError: (m: string) => void }) {
     e.preventDefault();
     setBusy(true);
     onError("");
-    const { error } = await supabase.auth.signInWithPassword({ email: ADMIN_EMAIL, password });
-    if (error) onError("Incorrect password.");
+    try {
+      const data = await adminRequest({ action: "login", password });
+      if (!data.token) throw new Error("Could not start an admin session.");
+      onSignedIn(data.token);
+    } catch (err) {
+      onError(err instanceof Error ? err.message : "Incorrect password.");
+    }
     setBusy(false);
   };
 
@@ -50,49 +68,100 @@ function LoginForm({ onError }: { onError: (m: string) => void }) {
         />
       </label>
 
-      <button
+      <Button
         type="submit"
         disabled={busy}
-        className="mt-6 w-full border-[3px] border-mm-bone bg-mm-lime px-5 py-3 font-display text-lg text-mm-black disabled:opacity-60"
+        className="mt-6 h-auto w-full rounded-none border-[3px] border-mm-bone bg-mm-lime px-5 py-3 font-display text-lg text-mm-black hover:bg-mm-lime/90"
       >
         {busy ? "SIGNING IN…" : "SIGN IN"}
-      </button>
+      </Button>
     </form>
   );
 }
 
+function ChangePassword({ token, onChanged, onCancel }: { token: string; onChanged: () => void; onCancel: () => void }) {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (newPassword !== confirmPassword) return setError("New passwords do not match.");
+    if (newPassword.length < 8) return setError("New password must be at least 8 characters.");
+    setBusy(true);
+    setError("");
+    try {
+      await adminRequest({ action: "change-password", token, currentPassword, newPassword });
+      onChanged();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not change password.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-mm-black/85 px-5" role="dialog" aria-modal="true" aria-labelledby="change-password-title">
+      <form onSubmit={submit} className="w-full max-w-md border-[3px] border-mm-bone bg-mm-black p-6 shadow-mm-bone-sm">
+        <h2 id="change-password-title" className="font-display text-2xl">CHANGE PASSWORD</h2>
+        <div className="mt-6 space-y-4">
+          {[
+            ["CURRENT PASSWORD", currentPassword, setCurrentPassword],
+            ["NEW PASSWORD", newPassword, setNewPassword],
+            ["CONFIRM NEW PASSWORD", confirmPassword, setConfirmPassword],
+          ].map(([label, value, setter]) => (
+            <label key={label as string} className="block font-sticker text-[10px] text-mm-bone/70">
+              {label as string}
+              <input type="password" required value={value as string} onChange={(e) => (setter as React.Dispatch<React.SetStateAction<string>>)(e.target.value)} className="mt-1 w-full border-[3px] border-mm-bone bg-mm-paper px-3 py-2 font-sans text-mm-black" />
+            </label>
+          ))}
+        </div>
+        {error && <p className="mt-3 text-sm font-semibold text-mm-orange">{error}</p>}
+        <div className="mt-6 flex gap-3">
+          <Button type="button" onClick={onCancel} variant="outline" className="h-auto flex-1 rounded-none border-[3px] border-mm-bone bg-transparent py-3 font-sticker text-[11px] text-mm-bone hover:bg-mm-bone hover:text-mm-black">CANCEL</Button>
+          <Button type="submit" disabled={busy} className="h-auto flex-1 rounded-none border-[3px] border-mm-bone bg-mm-lime py-3 font-sticker text-[11px] text-mm-black hover:bg-mm-lime/90">{busy ? "SAVING…" : "SAVE"}</Button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 export default function Admin() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [ready, setReady] = useState(false);
+  const [token, setToken] = useState(() => sessionStorage.getItem(SESSION_KEY) ?? "");
   const [error, setError] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(false);
+  const [changingPassword, setChangingPassword] = useState(false);
 
-  useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setReady(true);
-    });
-    return () => sub.subscription.unsubscribe();
+  const signOut = useCallback(() => {
+    sessionStorage.removeItem(SESSION_KEY);
+    setToken("");
+    setLeads([]);
+    setChangingPassword(false);
   }, []);
 
+  const signedIn = (nextToken: string) => {
+    sessionStorage.setItem(SESSION_KEY, nextToken);
+    setToken(nextToken);
+    setError("");
+  };
+
   useEffect(() => {
-    if (!session) {
+    if (!token) {
       setLeads([]);
       return;
     }
     setLoading(true);
-    supabase
-      .from("leads")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) setError(error.message);
-        else setLeads((data ?? []) as Lead[]);
-        setLoading(false);
-      });
-  }, [session]);
+    adminRequest({ action: "list", token })
+      .then((data) => setLeads(data.leads ?? []))
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Could not load leads.");
+        signOut();
+      })
+      .finally(() => setLoading(false));
+  }, [token, signOut]);
 
   const exportCsv = () => {
     const cols: (keyof Lead)[] = [
@@ -109,15 +178,11 @@ export default function Admin() {
     URL.revokeObjectURL(url);
   };
 
-  if (!ready) {
-    return <main className="min-h-screen bg-mm-black" />;
-  }
-
-  if (!session) {
+  if (!token) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-mm-black px-5">
         <div className="w-full max-w-sm">
-          <LoginForm onError={setError} />
+          <LoginForm onSignedIn={signedIn} onError={setError} />
           {error && <p className="mt-3 text-sm font-semibold text-mm-orange">{error}</p>}
         </div>
       </main>
@@ -132,18 +197,20 @@ export default function Admin() {
             LEADS <span className="text-mm-lime">({leads.length})</span>
           </h1>
           <div className="flex gap-3">
-            <button
+            <Button
               onClick={exportCsv}
-              className="border-[3px] border-mm-bone bg-mm-lime px-4 py-2 font-sticker text-[11px] tracking-[0.14em] text-mm-black"
+              className="h-auto rounded-none border-[3px] border-mm-bone bg-mm-lime px-4 py-2 font-sticker text-[11px] text-mm-black hover:bg-mm-lime/90"
             >
               EXPORT CSV
-            </button>
-            <button
-              onClick={() => supabase.auth.signOut()}
-              className="border-[3px] border-mm-bone px-4 py-2 font-sticker text-[11px] tracking-[0.14em]"
+            </Button>
+            <Button
+              onClick={() => setChangingPassword(true)}
+              variant="outline"
+              className="h-auto rounded-none border-[3px] border-mm-bone bg-transparent px-4 py-2 font-sticker text-[11px] text-mm-bone hover:bg-mm-bone hover:text-mm-black"
             >
-              SIGN OUT
-            </button>
+              CHANGE PASSWORD
+            </Button>
+            <Button onClick={signOut} variant="outline" className="h-auto rounded-none border-[3px] border-mm-bone bg-transparent px-4 py-2 font-sticker text-[11px] text-mm-bone hover:bg-mm-bone hover:text-mm-black">SIGN OUT</Button>
           </div>
         </div>
 
@@ -184,6 +251,10 @@ export default function Admin() {
           </div>
         )}
       </div>
+      {changingPassword && <ChangePassword token={token} onCancel={() => setChangingPassword(false)} onChanged={() => {
+        signOut();
+        setError("Password changed. Sign in with your new password.");
+      }} />}
     </main>
   );
 }

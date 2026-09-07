@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_login_attempts: {
+        Row: {
+          blocked_until: string | null
+          failed_count: number
+          fingerprint: string
+          updated_at: string
+          window_started_at: string
+        }
+        Insert: {
+          blocked_until?: string | null
+          failed_count?: number
+          fingerprint: string
+          updated_at?: string
+          window_started_at?: string
+        }
+        Update: {
+          blocked_until?: string | null
+          failed_count?: number
+          fingerprint?: string
+          updated_at?: string
+          window_started_at?: string
+        }
+        Relationships: []
+      }
+      admin_security: {
+        Row: {
+          password_hash: string | null
+          session_version: number
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          password_hash?: string | null
+          session_version?: number
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          password_hash?: string | null
+          session_version?: number
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           created_at: string
