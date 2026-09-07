@@ -13,12 +13,9 @@ Deno.serve(async (req) => {
     const admin = createClient(url, serviceKey, { auth: { persistSession: false } })
 
     const email = 'leads-admin@madmonkeyhostels.com'
-    const { data: list, error: listErr } = await admin.auth.admin.listUsers()
-    if (listErr) throw listErr
-    const user = list.users.find((u) => u.email === email)
-    if (!user) throw new Error('Admin user not found')
+    const userId = '6ed7680f-1a59-4ca1-85c1-347f866c7ffb'
 
-    const { error: updErr } = await admin.auth.admin.updateUserById(user.id, { password })
+    const { error: updErr } = await admin.auth.admin.updateUserById(userId, { password })
     if (updErr) throw updErr
 
     // Verify sign-in works with the new password
