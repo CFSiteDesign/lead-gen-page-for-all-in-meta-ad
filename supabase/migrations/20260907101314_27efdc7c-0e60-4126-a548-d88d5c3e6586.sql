@@ -1,0 +1,2 @@
+CREATE POLICY "Backend only admin security" ON public.admin_security FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY "Backend only login attempts" ON public.admin_login_attempts FOR ALL TO service_role USING (true) WITH CHECK (true);
