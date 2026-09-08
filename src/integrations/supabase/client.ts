@@ -7,9 +7,13 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * Newer Lovable projects name the key PUBLISHABLE_KEY; older ones ANON_KEY.
  * Both are the public, RLS-guarded key — safe to ship in the bundle.
  */
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const SUPABASE_KEY = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ??
-  import.meta.env.VITE_SUPABASE_ANON_KEY) as string | undefined;
+export const SUPABASE_URL =
+  (import.meta.env.VITE_SUPABASE_URL as string | undefined) ??
+  "https://rdmbecuuzueeddwkzonk.supabase.co";
+export const SUPABASE_KEY =
+  ((import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ??
+    import.meta.env.VITE_SUPABASE_ANON_KEY) as string | undefined) ??
+  "sb_publishable_ekEpeMen6wJfsbErrZDdXw_D8gswPQC";
 
 /**
  * Null when the app is running without Supabase credentials (e.g. a bare
