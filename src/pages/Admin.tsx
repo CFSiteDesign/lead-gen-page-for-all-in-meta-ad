@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { SUPABASE_URL, SUPABASE_KEY } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
 type Lead = {
@@ -22,16 +22,22 @@ type Lead = {
 const SESSION_KEY = "all-in-admin-session";
 
 async function adminRequest(body: Record<string, string>) {
-  const { data, error } = await supabase.functions.invoke("admin-leads", { body });
-  if (error) {
-    let message = "Something went wrong. Please try again.";
-    if (error.context instanceof Response) {
-      const payload = await error.context.json().catch(() => null) as { error?: string } | null;
-      if (payload?.error) message = payload.error;
-    }
-    throw new Error(message);
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/admin-leads`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const payload = (await res.json().catch(() => null)) as
+    | { error?: string; token?: string; leads?: Lead[]; changed?: boolean }
+    | null;
+  if (!res.ok || !payload) {
+    throw new Error(payload?.error ?? "Something went wrong. Please try again.");
   }
-  return data as { token?: string; leads?: Lead[]; changed?: boolean };
+  return payload;
 }
 
 function LoginForm({ onSignedIn, onError }: { onSignedIn: (token: string) => void; onError: (m: string) => void }) {
