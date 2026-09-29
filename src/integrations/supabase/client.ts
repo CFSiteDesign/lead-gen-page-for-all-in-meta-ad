@@ -5,7 +5,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * local .env for `npm run dev` (see .env.example).
  *
  * Newer Lovable projects name the key PUBLISHABLE_KEY; older ones ANON_KEY.
- * Both are the public, RLS-guarded key — safe to ship in the bundle.
+ * Both are the public, RLS-guarded key, safe to ship in the bundle.
  */
 export const SUPABASE_URL =
   (import.meta.env.VITE_SUPABASE_URL as string | undefined) ??

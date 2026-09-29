@@ -65,6 +65,10 @@ export type Database = {
           email: string
           fbclid: string | null
           id: string
+          marketing_consent: boolean
+          marketing_consent_at: string | null
+          marketing_consent_text: string | null
+          marketing_consent_version: string | null
           name: string
           nationality: string
           phone: string
@@ -82,6 +86,10 @@ export type Database = {
           email: string
           fbclid?: string | null
           id?: string
+          marketing_consent?: boolean
+          marketing_consent_at?: string | null
+          marketing_consent_text?: string | null
+          marketing_consent_version?: string | null
           name: string
           nationality: string
           phone: string
@@ -99,6 +107,10 @@ export type Database = {
           email?: string
           fbclid?: string | null
           id?: string
+          marketing_consent?: boolean
+          marketing_consent_at?: string | null
+          marketing_consent_text?: string | null
+          marketing_consent_version?: string | null
           name?: string
           nationality?: string
           phone?: string

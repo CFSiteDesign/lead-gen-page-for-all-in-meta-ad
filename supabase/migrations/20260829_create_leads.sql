@@ -1,4 +1,4 @@
--- ALL IN Meta ad landing page — lead capture.
+-- ALL IN Meta ad landing page, lead capture.
 -- Applied to the Lovable Cloud (Supabase) database for project
 -- dd20555c-e6eb-4512-a003-bdd808d48925. Kept here as the source of record.
 

@@ -8,12 +8,11 @@ import { componentTagger } from "lovable-tagger";
  * and don't run JS, so og:url / og:image / canonical have to be absolute and
  * baked in at build time.
  *
- * Set VITE_SITE_URL to the real domain once it's known. The fallback is the
- * Lovable preview URL so a build never ships a broken placeholder.
+ * Defaults to the live campaign URL. Override with VITE_SITE_URL only if the
+ * page moves, and check that og-image.jpg still resolves under the new path.
  */
 const SITE_URL = (
-  process.env.VITE_SITE_URL ||
-  "https://id-preview--dd20555c-e6eb-4512-a003-bdd808d48925.lovable.app"
+  process.env.VITE_SITE_URL || "https://madmonkeyhostels.com/campaigns/all-in"
 ).replace(/\/+$/, "");
 
 function siteUrlPlugin(): Plugin {

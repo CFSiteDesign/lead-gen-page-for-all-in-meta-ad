@@ -1,10 +1,12 @@
 import { supabase } from "@/integrations/supabase/client";
+import { MARKETING_CONSENT_TEXT, MARKETING_CONSENT_VERSION } from "@/data/consent";
 
 export interface LeadInput {
   name: string;
   email: string;
   phone: string;
   nationality: string;
+  marketingConsent: boolean;
 }
 
 /**
@@ -34,6 +36,16 @@ export async function submitLead(input: LeadInput): Promise<void> {
     email: input.email.trim().toLowerCase(),
     phone: input.phone.trim(),
     nationality: input.nationality,
+    // Record what they agreed to, not just that they agreed. Without the exact
+    // wording there is nothing to show if consent is ever challenged, which is
+    // the entire reason the box exists.
+    //
+    // marketing_consent_at is deliberately NOT sent: a trigger on the table
+    // stamps it server-side, because a timestamp from the visitor's own clock
+    // is not evidence of anything.
+    marketing_consent: input.marketingConsent,
+    marketing_consent_text: input.marketingConsent ? MARKETING_CONSENT_TEXT : null,
+    marketing_consent_version: input.marketingConsent ? MARKETING_CONSENT_VERSION : null,
     ...captureAttribution(),
   };
 
@@ -41,7 +53,7 @@ export async function submitLead(input: LeadInput): Promise<void> {
     // No credentials in this environment. Fail loudly in prod; in local dev,
     // log the row so the form can still be exercised end to end.
     if (import.meta.env.DEV) {
-      console.warn("[leads] Supabase not configured — lead NOT saved:", row);
+      console.warn("[leads] Supabase not configured, lead NOT saved:", row);
       return;
     }
     throw new Error("Lead capture is not configured.");

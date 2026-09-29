@@ -5,6 +5,7 @@ import { z } from "zod";
 import { ArrowRight, Loader2, Check } from "lucide-react";
 import { submitLead } from "@/lib/leads";
 import { ALL_NATIONALITIES, POPULAR_NATIONALITIES } from "@/data/nationalities";
+import { MARKETING_CONSENT_TEXT } from "@/data/consent";
 import { Starburst } from "@/components/Sticker";
 
 const schema = z.object({
@@ -26,6 +27,9 @@ const schema = z.object({
     .max(25, "That number is too long")
     .regex(/^[+()\d\s-]+$/, "Numbers, spaces and + only"),
   nationality: z.string().min(1, "Pick your nationality"),
+  marketingConsent: z
+    .boolean()
+    .refine((v) => v === true, { message: "Tick the box so we can contact you" }),
 });
 
 /**
@@ -39,6 +43,7 @@ interface FormValues {
   email: string;
   phone: string;
   nationality: string;
+  marketingConsent: boolean;
 }
 
 // Compile-time guard: fails the build if `schema` and `FormValues` diverge.
@@ -75,7 +80,7 @@ export function LeadForm({ id = "chat-to-team" }: { id?: string }) {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema) as Resolver<FormValues>,
-    defaultValues: { name: "", email: "", phone: "", nationality: "" },
+    defaultValues: { name: "", email: "", phone: "", nationality: "", marketingConsent: false },
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -219,6 +224,22 @@ export function LeadForm({ id = "chat-to-team" }: { id?: string }) {
             </optgroup>
           </select>
           <FieldError message={errors.nationality?.message} />
+        </div>
+
+        <div className="border-[3px] border-mm-black bg-mm-paper p-3.5">
+          <label htmlFor="marketingConsent" className="flex cursor-pointer items-start gap-3">
+            <input
+              id="marketingConsent"
+              type="checkbox"
+              className="mm-check mt-[1px]"
+              aria-invalid={!!errors.marketingConsent}
+              {...register("marketingConsent")}
+            />
+            <span className="text-[12px] font-semibold leading-snug text-mm-black/80">
+              {MARKETING_CONSENT_TEXT}
+            </span>
+          </label>
+          <FieldError message={errors.marketingConsent?.message} />
         </div>
 
         {submitError && (

@@ -9,6 +9,10 @@ type Lead = {
   email: string;
   phone: string;
   nationality: string;
+  marketing_consent: boolean;
+  marketing_consent_at: string | null;
+  marketing_consent_text: string | null;
+  marketing_consent_version: string | null;
   source: string | null;
   utm_source: string | null;
   utm_medium: string | null;
@@ -172,6 +176,7 @@ export default function Admin() {
   const exportCsv = () => {
     const cols: (keyof Lead)[] = [
       "created_at", "name", "email", "phone", "nationality",
+      "marketing_consent", "marketing_consent_at", "marketing_consent_text", "marketing_consent_version",
       "source", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid", "referrer",
     ];
     const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
