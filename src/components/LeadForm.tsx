@@ -5,7 +5,7 @@ import { z } from "zod";
 import { ArrowRight, Loader2, Check } from "lucide-react";
 import { submitLead } from "@/lib/leads";
 import { ALL_NATIONALITIES, POPULAR_NATIONALITIES } from "@/data/nationalities";
-import { MARKETING_CONSENT_TEXT } from "@/data/consent";
+import { MARKETING_CONSENT_TEXT, CONSENT_DISCLOSURE_TEXT } from "@/data/consent";
 import { Starburst } from "@/components/Sticker";
 
 const schema = z.object({
@@ -239,6 +239,9 @@ export function LeadForm({ id = "chat-to-team" }: { id?: string }) {
               {MARKETING_CONSENT_TEXT}
             </span>
           </label>
+          <p className="mt-2 text-[10px] font-semibold leading-snug text-mm-black/55">
+            {CONSENT_DISCLOSURE_TEXT}
+          </p>
           <FieldError message={errors.marketingConsent?.message} />
         </div>
 
