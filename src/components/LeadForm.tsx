@@ -5,7 +5,7 @@ import { z } from "zod";
 import { ArrowRight, Loader2, Check } from "lucide-react";
 import { submitLead } from "@/lib/leads";
 import { ALL_NATIONALITIES, POPULAR_NATIONALITIES } from "@/data/nationalities";
-import { MARKETING_CONSENT_TEXT } from "@/data/consent";
+import { MARKETING_CONSENT_TEXT, CONSENT_DISCLOSURE_TEXT } from "@/data/consent";
 import { Starburst } from "@/components/Sticker";
 
 const schema = z.object({
