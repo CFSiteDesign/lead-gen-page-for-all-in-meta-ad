@@ -239,6 +239,9 @@ export function LeadForm({ id = "chat-to-team" }: { id?: string }) {
               {MARKETING_CONSENT_TEXT}
             </span>
           </label>
+          <p className="mt-2 text-[10px] font-semibold leading-snug text-mm-black/55">
+            {CONSENT_DISCLOSURE_TEXT}
+          </p>
           <FieldError message={errors.marketingConsent?.message} />
         </div>
 
