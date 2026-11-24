@@ -9,7 +9,7 @@ import allInLogo from "@/assets/all-in-logo.png";
 
 const PROOF = [
   { stat: "53,000+", label: "IN THE CREW" },
-  { stat: "3", label: "COUNTRIES" },
+  { stat: "4", label: "COUNTRIES" },
   { stat: "24", label: "MAX CREW SIZE" },
   { stat: "$99", label: "HOLDS YOUR SPOT" },
 ];
@@ -46,7 +46,7 @@ export default function Index() {
             </h1>
 
             <p className="mt-5 max-w-md text-[15px] font-semibold leading-snug text-mm-bone/85 md:text-base">
-              Group backpacker trips through Indonesia, Cambodia and Vietnam. Real Mad Monkey hostels
+              Group backpacker trips through Indonesia, Cambodia, Vietnam and Laos. Real Mad Monkey hostels
               every night, a crew of up to 24, and none of the planning.
             </p>
 
